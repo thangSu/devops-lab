@@ -15,20 +15,31 @@ def PRODUCTION_NAMESPACE = 'production'
 def PULL_SECRET = "registry-${REGISTRY_CREDENTIALS}"
 
 def DOCKER_HOST_VALUE = 'tcp://dind.default:2376'
-
+// apiVersion: v1
+// kind: Pod
+// spec:
+//   containers:
+//   - name: docker
+//     image: docker:rc-dind
+//     command:
+//     - cat
+//     tty: true
+//     env:
+//     - name: DOCKER_HOST
+//       value: ${DOCKER_HOST_VALUE}
 def DOCKER_POD = """
 apiVersion: v1
 kind: Pod
+metadata:
+  name: docker
+  labels:
+    app: docker
 spec:
   containers:
   - name: docker
-    image: docker:rc-dind
-    command:
-    - cat
-    tty: true
-    env:
-    - name: DOCKER_HOST
-      value: ${DOCKER_HOST_VALUE}
+    image: docker:24.0.0-rc.1-dind
+    securityContext:
+      privileged: true
 """
 pipeline {
   agent any
