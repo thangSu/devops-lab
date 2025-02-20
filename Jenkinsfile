@@ -46,7 +46,6 @@ pipeline{
             }
         }
         stage('Deploy to staging namespace'){
-            when { branch 'main'}
             agent { kubernetes label: 'docker', yaml: "${KUBECTL_POD}" }
             stages{
                 
