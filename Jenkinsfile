@@ -16,7 +16,7 @@ pipeline{
                 stage('Build Registry'){
                     steps{
                         dir('dev-app') {  // Sets working directory
-                            sh 'docker build -t ${IMAGE_BRANCH_TAG}-${env.GIT_COMMIT[0..6]} .'
+                            sh "docker build -t ${IMAGE_BRANCH_TAG}-${env.GIT_COMMIT[0..6]} ."
                         }
                         
                     }
