@@ -3,7 +3,7 @@ def OWNER = 'thangsu'
 def REPO_NAME = 'devops-lab'
 def IMAGE_NAME = 'dev-app'
 
-def IMAGE_REGISTRY = "${OWNER}/${REPO_NAME}/${IMAGE_NAME}"
+def IMAGE_REGISTRY = "${OWNER}/${REPO_NAME}"
 def IMAGE_BRANCH_TAG = "${IMAGE_REGISTRY}:${env.BRANCH_NAME}"
 
 def REGISTRY_CREDENTIALS = 'docker_tokens'
@@ -66,8 +66,6 @@ pipeline {
                 sh """
                 echo ${REGISTRY_PASS} | docker login ${REGISTRY_URL} -u ${REGISTRY_USER} --password-stdin
                 docker push ${IMAGE_BRANCH_TAG}-${env.GIT_COMMIT[0..6]}
-                docker tag ${IMAGE_BRANCH_TAG}.${env.GIT_COMMIT[0..6]} ${IMAGE_BRANCH_TAG}
-                docker push ${IMAGE_BRANCH_TAG}
                 """
               }
             }
