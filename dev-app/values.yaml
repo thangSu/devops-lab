@@ -1,7 +1,7 @@
 
 namespace: staging
 dev_app:
-  container_image: thangsu/dev-app
+  container_image: thangsu/devops-lab
   tag: v1
   pullPolicy: IfNotPresent 
   resources:
@@ -15,4 +15,5 @@ dev_app:
     type: ClusterIP
     port: 8080
     target-port: 8080
-
+  pull_secrets: 
+    name: regcred

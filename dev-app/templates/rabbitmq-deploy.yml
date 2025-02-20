@@ -19,13 +19,13 @@ spec:
       - name: dev-rabbitmq
         image: rabbitmq
         ports:
-        - name: dev-rabbitmq-port
+        - name: dev-rb-port
           containerPort: 15672
         env: 
          - name: RABBITMQ_DEFAULT_PASS
            valueFrom:
              secretKeyRef:
-               name: app-secret
+               name: dev-app-secret
                key: rmq-pass
          - name: RABBITMQ_DEFAULT_USER
            value: "guest"

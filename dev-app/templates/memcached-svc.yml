@@ -6,7 +6,7 @@ metadata:
 spec:
   ports:
   - port: 11211
-    targetPort: dev-memcached-port
+    targetPort: dev-mc-port
     protocol: TCP
   selector:
     app: dev-memcached

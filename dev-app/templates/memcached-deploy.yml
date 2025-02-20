@@ -19,5 +19,5 @@ spec:
       - name: dev-memcached
         image: memcached
         ports:
-        - name: dev-memcached-port
+        - name: dev-mc-port
           containerPort: 11211

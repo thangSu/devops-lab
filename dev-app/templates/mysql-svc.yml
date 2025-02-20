@@ -9,5 +9,5 @@ spec:
     targetPort: dev-mysql-port
     protocol: TCP
   selector:
-    app: vprodb
+    app:  dev-mysql
   type: ClusterIP

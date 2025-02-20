@@ -17,14 +17,16 @@ spec:
     spec:
       containers:
       - name: dev-app
-        image: {{.Values.dev_app.container_image}}:{{.Values.dev_app.tag}}
+        image: "{{.Values.dev_app.container_image}}:{{.Values.dev_app.tag}}"
         ports: 
         - name: dev-app
           containerPort: 8080
+      imagePullSecrets: 
+      - name: {{.Values.dev_app.pull_secrets.name}}
       initContainers:
       - name: init-mydb
         image: busybox
-        command: ['sh', '-c', 'until nslookup vprodb.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done;']
+        command: ['sh', '-c', 'until nslookup dev-mysql-svc.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done;']
       - name: init-memcache
         image: busybox
-        command: ['sh', '-c', 'until nslookup vprocache01.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done;']
+        command: ['sh', '-c', 'until nslookup dev-memcached-svc.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done;']
