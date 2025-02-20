@@ -15,7 +15,7 @@ pipeline{
                 }
                 stage('Build app images'){
                     steps{ 
-                        sh "docker build -t ${IMAGE_BRANCH_TAG}-${env.GIT_COMMIT[0..6]} ."
+                        sh "docker build -t ${IMAGE_REGISTRY}-${env.GIT_COMMIT[0..6]} ."
                     }
                 }
                 stage('Push app images to Docker'){
