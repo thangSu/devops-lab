@@ -1,77 +1,25 @@
-def REGISTRY_URL = 'registry.hub.docker.com'
 def OWNER = 'thangsu'
-def REPO_NAME = 'devops-lab'
-def IMAGE_NAME = 'dev-app'
-
-def IMAGE_REGISTRY = "${OWNER}/${REPO_NAME}"
+def IMAGE_NAME = 'devops-lab'
+def IMAGE_REGISTRY = "${OWNER}/${IMAGE_NAME}"
 def IMAGE_BRANCH_TAG = "${IMAGE_REGISTRY}:${env.BRANCH_NAME}"
 
-def REGISTRY_CREDENTIALS = 'docker_tokens'
-def CLUSTER_CREDENTIALS = 'dev_k8s_kubeconfig'
-
-def KUBERNETES_MANIFEST = 'kubernetes-manifest.yaml'
-def STAGING_NAMESPACE = 'staging'
-def PRODUCTION_NAMESPACE = 'production'
-def PULL_SECRET = "registry-${REGISTRY_CREDENTIALS}"
-
-def DOCKER_HOST_VALUE = 'tcp://dind.default:2376'
-// apiVersion: v1
-// kind: Pod
-// spec:
-//   containers:
-//   - name: docker
-//     image: docker:rc-dind
-//     command:
-//     - cat
-//     tty: true
-//     env:
-//     - name: DOCKER_HOST
-//       value: ${DOCKER_HOST_VALUE}
-def DOCKER_POD = """
-apiVersion: v1
-kind: Pod
-metadata:
-  name: docker
-  labels:
-    app: docker
-spec:
-  containers:
-  - name: docker
-    image: docker:24.0.0-rc.1-dind
-    securityContext:
-      privileged: true
-"""
-pipeline {
-  agent any
-  stages {
-    stage('Run Docker') {
-      agent { kubernetes label: 'docker', yaml: "${DOCKER_POD}" }
-      stages {
-        stage('Build Docker Image') {
-          steps {
-            container('docker') {
-              sh "docker build -t ${IMAGE_BRANCH_TAG}-${env.GIT_COMMIT[0..6]} ."
+pipeline{
+    agent any 
+    stages{
+        stage('Docker image'){
+            stages {
+                stage('Build Docker image'){
+                    steps{
+                        sh 'nvm install'
+                    }
+                }
+                stage('Push Image to Registry'){
+                    steps{
+                        sh 'docker build -t ${IMAGE_BRANCH_TAG}-${env.GIT_COMMIT[0..6]} .'
+                    }
+                }
             }
-          }
         }
-        stage('Push Image to Registry') {
-          steps {
-            container('docker') {
-              withCredentials([
-                usernamePassword(
-                  credentialsId: "${REGISTRY_CREDENTIALS}",
-                  usernameVariable: 'REGISTRY_USER', passwordVariable: 'REGISTRY_PASS'
-                )
-              ]) {
-                sh """
-                echo ${REGISTRY_PASS} | docker login ${REGISTRY_URL} -u ${REGISTRY_USER} --password-stdin
-                docker push ${IMAGE_BRANCH_TAG}-${env.GIT_COMMIT[0..6]}
-                """
-              }
-            }
-          }
-        }
-      }
-    }
+        
     }
 }
