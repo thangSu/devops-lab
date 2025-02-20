@@ -3,7 +3,7 @@ def OWNER = 'thangsu'
 def REPO_NAME = 'devops-lab'
 def IMAGE_NAME = 'dev-app'
 
-def IMAGE_REGISTRY = "${REGISTRY_URL}/${OWNER}/${REPO_NAME}/${IMAGE_NAME}"
+def IMAGE_REGISTRY = "${OWNER}/${REPO_NAME}/${IMAGE_NAME}"
 def IMAGE_BRANCH_TAG = "${IMAGE_REGISTRY}:${env.BRANCH_NAME}"
 
 def REGISTRY_CREDENTIALS = 'docker_tokens'
