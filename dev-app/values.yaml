@@ -1,0 +1,18 @@
+
+namespace: staging
+dev_app:
+  container_image: thangsu/dev-app
+  tag: v1
+  pullPolicy: IfNotPresent 
+  resources:
+    limits:
+      cpu: "500m"
+      memory: "256Mi"
+    requests:
+      cpu: "250m"
+      memory: "128Mi"
+  service:
+    type: ClusterIP
+    port: 8080
+    target-port: 8080
+

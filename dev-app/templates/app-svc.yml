@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dev-app-svc
-  namespace: {{NAMESPACE}}
+  namespace: {{.Values.namespace}}
 spec:
   ports:
   - port: 8080

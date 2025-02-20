@@ -4,7 +4,7 @@ metadata:
   name: dev-rabbitmq
   labels:
     app: dev-rabbitmq
-  namespace: {{NAMESPACE}}
+  namespace: {{.Values.namespace}}
 spec:
   selector:
     matchLabels:
