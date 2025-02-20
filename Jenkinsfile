@@ -62,24 +62,25 @@ pipeline{
                                 credentialsId: "${REGISTRY_CREDENTIALS}",
                                 usernameVariable: 'REGISTRY_USER', passwordVariable: 'REGISTRY_PASS'
                             )
-                        ]){
-                            sh """
-                            kubectl \
-                            -n ${STAGING_NAMESPACE} \
-                            create secret docker-registry ${PULL_SECRET} \
-                            --docker-username=${REGISTRY_USER} \
-                            --docker-password=${REGISTRY_PASS} \
-                            --dry-run \
-                            -o yaml \
-                            | kubectl apply -f - 
+                            ]){
+                                sh """
+                                kubectl \
+                                -n ${STAGING_NAMESPACE} \
+                                create secret docker-registry ${PULL_SECRET} \
+                                --docker-username=${REGISTRY_USER} \
+                                --docker-password=${REGISTRY_PASS} \
+                                --dry-run \
+                                -o yaml \
+                                | kubectl apply -f - 
 
 
-                            kubectl get pod -A
-                            """
+                                kubectl get pod -A
+                                """
+                            }
                         }
                     }
-                }
         
+                }
             }
         }
     }
