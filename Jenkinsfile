@@ -15,7 +15,7 @@ kind: Pod
 spec:
   containers:
   - name: kubectl
-    image: alpine/helm
+    image: alpine/k8s
     command:
     - cat
     tty: true
