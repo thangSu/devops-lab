@@ -15,13 +15,13 @@ pipeline{
                 }
                 stage('Build app images'){
                     steps{ 
-                        sh "docker build -t ${IMAGE_REGISTRY}-${env.GIT_COMMIT[0..6]} ."
+                        sh "docker build -t ${IMAGE_REGISTRY}:${env.GIT_COMMIT[0..6]} ."
                     }
                 }
                 stage('Push app images to Docker'){
                     steps{
                         withCredentials([usernamePassword(credentialsId: "${REGISTRY_CREDENTIALS}",usernameVariable: 'REGISTRY_USER', passwordVariable: 'REGISTRY_PASS')]){
-                            sh "docker push ${IMAGE_REGISTRY}-${env.GIT_COMMIT[0..6]}"
+                            sh "docker push ${IMAGE_REGISTRY}:${env.GIT_COMMIT[0..6]}"
                         }
                     }
                 }
