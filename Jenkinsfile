@@ -10,7 +10,7 @@ pipeline{
             stages {
                 stage('Build Docker image'){
                     steps{
-                        sh 'nvm install'
+                        sh 'mvn install'
                     }
                 }
                 stage('Push Image to Registry'){
