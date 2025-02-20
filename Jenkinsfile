@@ -21,7 +21,7 @@ pipeline{
                 stage('Push app images to Docker'){
                     steps{
                         withCredentials([usernamePassword(credentialsId: "${REGISTRY_CREDENTIALS}",usernameVariable: 'REGISTRY_USER', passwordVariable: 'REGISTRY_PASS')]){
-                            sh "docker push ${IMAGE_BRANCH_TAG}-${env.GIT_COMMIT[0..6]}"
+                            sh "docker push ${IMAGE_REGISTRY}-${env.GIT_COMMIT[0..6]}"
                         }
                     }
                 }
