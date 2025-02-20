@@ -13,9 +13,12 @@ pipeline{
                         sh 'mvn install'
                     }
                 }
-                stage('Push Image to Registry'){
+                stage('Build Registry'){
                     steps{
-                        sh 'docker build -t ${IMAGE_BRANCH_TAG}-${env.GIT_COMMIT[0..6]} .'
+                        dir('dev-app') {  // Sets working directory
+                            sh 'docker build -t ${IMAGE_BRANCH_TAG}-${env.GIT_COMMIT[0..6]} .'
+                        }
+                        
                     }
                 }
             }
