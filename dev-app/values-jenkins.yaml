@@ -3,7 +3,7 @@ namespace: {{NAMESPACE}}
 dev_app:
 
   container_image: {{IMAGE}}
-  tag: {{TAG}}
+  tag: "{{TAG}}"
   pullPolicy: IfNotPresent 
 
   resources:
