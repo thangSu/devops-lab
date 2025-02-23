@@ -80,6 +80,8 @@ pipeline{
                                 -e "s|{{IMAGE}}|${IMAGE_REGISTRY}:${env.GIT_COMMIT[0..6]}|g" \
                                 -e "s|{{PULL_SECRET}}|${PULL_SECRET}|g" \
                                 ${HELM_VALUE}
+                                
+                                cat ${HELE_VALUE}
                                 """
                             }
                         }
