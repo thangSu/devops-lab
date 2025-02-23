@@ -64,14 +64,14 @@ pipeline{
                             ]){
                                 sh """
                                 echo "${STAGING_NAMESPACE}"
-                                cat <<EOF | kubectl apply -f - 
+                                cat <<EOF | envsubst
                                 apiVersion: v1
                                 kind: Secret
                                 metadata:
                                     name: docker-registry
-                                    namespace: ${STAGING_NAMESPACE}
+                                    namespace: \${STAGING_NAMESPACE}
                                 data:
-                                    .dockerconfigjson: ${REGISTRY_ENCODE}
+                                    .dockerconfigjson: \${REGISTRY_ENCODE}
                                 type: kubernetes.io/dockerconfigjson
                                 EOF
 
