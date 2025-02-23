@@ -3,7 +3,7 @@ def IMAGE_NAME = 'devops-lab'
 def IMAGE_REGISTRY = "${OWNER}/${IMAGE_NAME}"
 def IMAGE_BRANCH_TAG = "${IMAGE_REGISTRY}:${env.BRANCH_NAME}"
 def REGISTRY_CREDENTIALS = "docker_tokens"
-
+def REGISTRY_URL="index.docker.io"
 def KUBERNETES_MANIFEST= "kubernetes/"
 def PULL_SECRET = "registry-secret"
 def CLUSTER_CREDENTIALS = "dev_k8s_kubeconfig"
@@ -66,6 +66,7 @@ pipeline{
                                 kubectl \
                                 -n ${STAGING_NAMESPACE} \
                                 create secret docker-registry ${PULL_SECRET} \
+                                --docker-server=${REGISTRY_URL} \
                                 --docker-username=${REGISTRY_USER} \
                                 --docker-password=${REGISTRY_PASS} \
                                 --dry-run=client \
