@@ -1,9 +1,11 @@
 
 namespace: staging
 dev_app:
-  container_image: thangsu/devops-lab
+
+  container_image: thangsu/dev-app
   tag: v1
   pullPolicy: IfNotPresent 
+
   resources:
     limits:
       cpu: "500m"
@@ -11,9 +13,10 @@ dev_app:
     requests:
       cpu: "250m"
       memory: "128Mi"
+      
   service:
     type: ClusterIP
     port: 8080
     target-port: 8080
-  pull_secrets: 
+  pull_secrets:
     name: regcred
