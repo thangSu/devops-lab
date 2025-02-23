@@ -62,22 +62,21 @@ pipeline{
                                 variable: 'REGISTRY_ENCODE'
                             )
                             ]){
-                                sh "echo ${STAGING_NAMESPACE}"
-                                sh '''
+                                sh """
                                 echo "${STAGING_NAMESPACE}"
                                 cat <<EOF | kubectl apply -f - 
                                 apiVersion: v1
                                 kind: Secret
                                 metadata:
                                     name: docker-registry
-                                    namespace: $(echo "${STAGING_NAMESPACE}")
+                                    namespace: $(echo ${STAGING_NAMESPACE})
                                 data:
-                                    .dockerconfigjson: $(echo "${REGISTRY_ENCODE}")
+                                    .dockerconfigjson: $(echo ${REGISTRY_ENCODE})
                                 type: kubernetes.io/dockerconfigjson
                                 EOF
 
                                 kubectl get pod -A
-                                '''
+                                """
                             }
                         }
                     }
