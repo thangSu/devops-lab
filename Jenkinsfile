@@ -69,9 +69,9 @@ pipeline{
                                 kind: Secret
                                 metadata:
                                 name: myregistrykey
-                                namespace: $(echo ${REGISTRY_ENCODE})
+                                namespace: $(echo "${REGISTRY_ENCODE}")
                                 data:
-                                    .dockerconfigjson: $(echo ${REGISTRY_ENCODE})
+                                    .dockerconfigjson: $(echo "${REGISTRY_ENCODE}")
                                 type: kubernetes.io/dockerconfigjson
                                 EOF
 
