@@ -75,7 +75,7 @@ pipeline{
                                 -o yaml \
                                 | kubectl apply -f -
 
-                                 sed \
+                                sed \
                                 -e "s|{{NAMESPACE}}|${STAGING_NAMESPACE}|g" \
                                 -e "s|{{IMAGE}}|${IMAGE_REGISTRY}:${env.GIT_COMMIT[0..6]}|g" \
                                 -e "s|{{PULL_SECRET}}|${PULL_SECRET}|g" \
