@@ -63,7 +63,7 @@ pipeline{
                             )
                             ]){
                                 sh """
-                                echo "${STAGING_NAMESPACE}"
+                                export STAGING_NAMESPACE= ${STAGING_NAMESPACE}
                                 cat <<EOF | envsubst
                                 apiVersion: v1
                                 kind: Secret
