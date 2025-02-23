@@ -3,7 +3,7 @@ def IMAGE_NAME = 'devops-lab'
 def IMAGE_REGISTRY = "${OWNER}/${IMAGE_NAME}"
 def IMAGE_BRANCH_TAG = "${IMAGE_REGISTRY}:${env.BRANCH_NAME}"
 def REGISTRY_CREDENTIALS = "docker_tokens"
-def REGISTRY_CRD = "docker_configjson"
+
 def KUBERNETES_MANIFEST= "kubernetes/"
 def PULL_SECRET = "registry-secret"
 def CLUSTER_CREDENTIALS = "dev_k8s_kubeconfig"
@@ -57,23 +57,20 @@ pipeline{
                                 credentialsId: "${CLUSTER_CREDENTIALS}",
                                 variable: 'KUBECONFIG'
                             ),
-                            string(
-                                credentialsId: "${REGISTRY_CRD}",
-                                variable: 'REGISTRY_ENCODE'
+                             usernamePassword(
+                            credentialsId: "${REGISTRY_CREDENTIALS}",
+                            usernameVariable: 'REGISTRY_USER', passwordVariable: 'REGISTRY_PASS'
                             )
                             ]){
                                 sh """
-                                export STAGING_NAMESPACE= ${STAGING_NAMESPACE}
-                                cat <<EOF | envsubst
-                                apiVersion: v1
-                                kind: Secret
-                                metadata:
-                                    name: docker-registry
-                                    namespace: \${STAGING_NAMESPACE}
-                                data:
-                                    .dockerconfigjson: \${REGISTRY_ENCODE}
-                                type: kubernetes.io/dockerconfigjson
-                                EOF
+                                kubectl \
+                                -n ${STAGING_NAMESPACE} \
+                                create secret docker-registry ${PULL_SECRET} \
+                                --docker-username=${REGISTRY_USER} \
+                                --docker-password=${REGISTRY_PASS} \
+                                --dry-run=client \
+                                -o yaml \
+                                | kubectl apply -f -
 
                                 kubectl get pod -A
                                 """
