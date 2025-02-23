@@ -64,7 +64,7 @@ pipeline{
                             ]){
                                 sh "echo ${STAGING_NAMESPACE}"
                                 sh '''
-                        
+                                echo "${STAGING_NAMESPACE}"
                                 cat <<EOF | kubectl apply -f - 
                                 apiVersion: v1
                                 kind: Secret
