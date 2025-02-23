@@ -62,8 +62,7 @@ pipeline{
                                 variable: 'REGISTRY_ENCODE'
                             )
                             ]){
-                                sh """
-                                
+                                sh '''
                                 cat <<EOF| kubectl apply -f - 
                                 apiVersion: v1
                                 kind: Secret
@@ -76,7 +75,7 @@ pipeline{
                                 EOF
 
                                 kubectl get pod -A
-                                """
+                                '''
                             }
                         }
                     }
