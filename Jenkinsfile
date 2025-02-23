@@ -7,8 +7,8 @@ def REGISTRY_CRD = "docker_configjson"
 def KUBERNETES_MANIFEST= "kubernetes/"
 def PULL_SECRET = "registry-secret"
 def CLUSTER_CREDENTIALS = 'dev_k8s_kubeconfig'
-def STAGING_NAMESPACE = 'staging'
-def PRODUCTION_NAMESPACE = 'production'
+def STAGING_NAMESPACE = "staging"
+def PRODUCTION_NAMESPACE = "production"
 def KUBECTL_POD = """
 apiVersion: v1
 kind: Pod
@@ -74,7 +74,7 @@ pipeline{
                                 .dockerconfigjson: $(echo "$REGISTRY_ENCODE")
                                 type: kubernetes.io/dockerconfigjson
                                 EOF
-                                
+
                                 kubectl get pod -A
                                 """
                             }
