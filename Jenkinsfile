@@ -71,7 +71,7 @@ pipeline{
                                 name: myregistrykey
                                 namespace: "${STAGING_NAMESPACE}"
                                 data:
-                                .dockerconfigjson: $(echo "$REGISTRY_ENCODE")
+                                .dockerconfigjson: $(echo "${REGISTRY_ENCODE}")
                                 type: kubernetes.io/dockerconfigjson
                                 EOF
 
