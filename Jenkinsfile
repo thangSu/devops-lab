@@ -10,7 +10,7 @@ def CLUSTER_CREDENTIALS = "dev_k8s_kubeconfig"
 def STAGING_NAMESPACE = "staging"
 def PRODUCTION_NAMESPACE = "production"
 
-def HELM_VALUE = "./dev-app/values-jenkins.yaml"
+def HELM_VALUE = "dev-app/values-jenkins.yaml"
 def KUBECTL_POD = """
 apiVersion: v1
 kind: Pod
@@ -81,7 +81,7 @@ pipeline{
                                 -e "s|{{PULL_SECRET}}|${PULL_SECRET}|g" \
                                 ${HELM_VALUE}
                                 
-                                cat ${HELE_VALUE}
+                                cat ${HELM_VALUE}
                                 """
                             }
                         }
