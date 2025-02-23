@@ -78,6 +78,7 @@ pipeline{
                                 sed -i \
                                 -e "s|{{NAMESPACE}}|${STAGING_NAMESPACE}|g" \
                                 -e "s|{{IMAGE}}|${IMAGE_REGISTRY}:${env.GIT_COMMIT[0..6]}|g" \
+                                -e "s|{{TAG}}|${env.GIT_COMMIT[0..6]}|g" \
                                 -e "s|{{PULL_SECRET}}|${PULL_SECRET}|g" \
                                 ${HELM_VALUE}
                                 
