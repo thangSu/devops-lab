@@ -57,7 +57,7 @@ pipeline{
                                 credentialsId: "${CLUSTER_CREDENTIALS}",
                                 variable: 'KUBECONFIG'
                             ),
-                            withCredentials(
+                            string(
                                 credentialsId: "${REGISTRY_CRD}",
                                 variable: 'REGISTRY_ENCODE'
                             )
