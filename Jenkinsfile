@@ -62,8 +62,10 @@ pipeline{
                                 variable: 'REGISTRY_ENCODE'
                             )
                             ]){
+                                sh "echo ${STAGING_NAMESPACE}"
                                 sh '''
-                                cat <<EOF
+                        
+                                cat <<EOF | kubectl apply -f - 
                                 apiVersion: v1
                                 kind: Secret
                                 metadata:
