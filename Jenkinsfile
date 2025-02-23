@@ -63,7 +63,7 @@ pipeline{
                             )
                             ]){
                                 sh '''
-                                cat <<EOF| kubectl apply -f - 
+                                cat <<EOF
                                 apiVersion: v1
                                 kind: Secret
                                 metadata:
