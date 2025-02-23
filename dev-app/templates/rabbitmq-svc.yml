@@ -5,7 +5,7 @@ metadata:
   namespace: {{.Values.namespace}}
 spec:
   ports:
-  - port: 5672
+  - port: 15672
     targetPort: dev-rb-port
     protocol: TCP
   selector:
