@@ -57,8 +57,8 @@ pipeline{
                                 credentialsId: "${CLUSTER_CREDENTIALS}",
                                 variable: 'KUBECONFIG'
                             ),
-                            usernamePassword(
-                                credentialsId: "${docker_configjson}",
+                            withCredentials(
+                                credentialsId: "${REGISTRY_CRD}",
                                 variable: 'REGISTRY_ENCODE'
                             )
                             ]){
