@@ -22,9 +22,9 @@ spec:
         - name: dev-mysql-port
           containerPort: 3306
         env: 
-         - name: {{.Values.dev_app.pass_secret}}
-           valueFrom:
+         - name: MYSQL_ROOT_PASSWORD
+           valueFrom: 
              secretKeyRef:
-               name: dev-app-secret
+               name: {{.Values.dev_app.pass_secret}}
                key: db-pass
 
