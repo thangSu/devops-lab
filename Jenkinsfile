@@ -11,6 +11,12 @@ def STAGING_NAMESPACE = "staging"
 def PRODUCTION_NAMESPACE = "production"
 
 def HELM_VALUE = "dev-app/values-jenkins.yaml"
+def HELM_PROD_VALUE = "dev-app/values-prod-jenkins.yaml"
+def HELM_DEV_VALUE = "dev-app/values-dev-jenkins.yaml"
+
+def INGRESS_DEV_DOMAIN = "dev-app.kameyoko.online"
+def INGRESS_RPOD_DOMAIN = "dev-app.kameyoko.online"
+
 def KUBECTL_POD = """
 apiVersion: v1
 kind: Pod
@@ -75,17 +81,17 @@ pipeline{
                                 -o yaml \
                                 | kubectl apply -f -
 
-                                sed -i \
+                                sed \
                                 -e "s|{{NAMESPACE}}|${STAGING_NAMESPACE}|g" \
                                 -e "s|{{IMAGE}}|${IMAGE_REGISTRY}|g" \
                                 -e "s|{{TAG}}|${env.GIT_COMMIT[0..6]}|g" \
                                 -e "s|{{PULL_SECRET}}|${PULL_SECRET}|g" \
-                                -e "s|{{PASS_SECRET}}|dev-app-secret|g" \
-                                ${HELM_VALUE}
+                                -e "s|{{INGRESS_DOMAIN}}|${INGRESS_DEV_DOMAIN}|g" \
+                                ${HELM_VALUE} > ${HELM_DEV_VALUE}
                                 
-                                cat ${HELM_VALUE}
+                                cat ${HELM_DEV_VALUE}
                                 
-                                helm upgrade --install test ./dev-app -n $STAGING_NAMESPACE -f ${HELM_VALUE}
+                                helm upgrade --install test ./dev-app -n $STAGING_NAMESPACE -f ${HELM_DEV_VALUE}
 
 
                                 """
@@ -125,14 +131,17 @@ pipeline{
                                 -o yaml \
                                 | kubectl apply -f -
 
-                                sed -i \
-                                -e "s|${STAGING_NAMESPACE}|${PRODUCTION_NAMESPACE}|g" \
+                                sed \
+                                -e "s|{{NAMESPACE}}|${STAGING_NAMESPACE}|g" \
+                                -e "s|{{IMAGE}}|${IMAGE_REGISTRY}|g" \
+                                -e "s|{{TAG}}|${env.GIT_COMMIT[0..6]}|g" \
                                 -e "s|{{PULL_SECRET}}|${PULL_SECRET}|g" \
-                                ${HELM_VALUE}
+                                -e "s|{{INGRESS_DOMAIN}}|${INGRESS_PROD_DOMAIN}|g" \
+                                ${HELM_VALUE} > ${HELM_PROD_VALUE}
                                 
-                                cat ${HELM_VALUE}
+                                cat ${HELM_PROD_VALUE}
                                 
-                                helm upgrade --install prod-app ./dev-app -n $PRODUCTION_NAMESPACE -f ${HELM_VALUE}
+                                helm upgrade --install prod-app ./dev-app -n $STAGING_NAMESPACE -f ${HELM_PROD_VALUE}
 
 
                                 """

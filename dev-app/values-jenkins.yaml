@@ -13,10 +13,12 @@ dev_app:
     requests:
       cpu: "250m"
       memory: "128Mi"
-  pass_secret: {{PASS_SECRET}}
+  pass_secret: dev-app-secret
   service:
     type: ClusterIP
     port: 8080
     target-port: 8080
   pull_secrets:
     name: {{PULL_SECRET}}
+ingress:
+  domain: {{INGRESS_DOMAIN}}
