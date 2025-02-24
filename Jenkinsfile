@@ -80,6 +80,7 @@ pipeline{
                                 -e "s|{{IMAGE}}|${IMAGE_REGISTRY}|g" \
                                 -e "s|{{TAG}}|${env.GIT_COMMIT[0..6]}|g" \
                                 -e "s|{{PULL_SECRET}}|${PULL_SECRET}|g" \
+                                -e "s|{{PASS_SECRET}}|dev-app-secret|g" \
                                 ${HELM_VALUE}
                                 
                                 cat ${HELM_VALUE}
@@ -129,6 +130,7 @@ pipeline{
                                 -e "s|{{IMAGE}}|${IMAGE_REGISTRY}|g" \
                                 -e "s|{{TAG}}|${env.GIT_COMMIT[0..6]}|g" \
                                 -e "s|{{PULL_SECRET}}|${PULL_SECRET}|g" \
+                                -e "s|{{PASS_SECRET}}|prod-app-secret|g" \
                                 ${HELM_VALUE}
                                 
                                 cat ${HELM_VALUE}
