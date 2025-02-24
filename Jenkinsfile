@@ -100,7 +100,7 @@ pipeline{
                         }
                     }
                 }
-                stage('Deploy Image to Staging'){
+                stage('Deploy Image to Productions'){
                     steps{
                         container('kubectl'){
                             withCredentials([
