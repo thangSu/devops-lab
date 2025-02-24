@@ -15,7 +15,7 @@ def HELM_PROD_VALUE = "dev-app/values-prod-jenkins.yaml"
 def HELM_DEV_VALUE = "dev-app/values-dev-jenkins.yaml"
 
 def INGRESS_DEV_DOMAIN = "dev-app.kameyoko.online"
-def INGRESS_RPOD_DOMAIN = "dev-app.kameyoko.online"
+def INGRESS_RPOD_DOMAIN = "prod-app.kameyoko.online"
 
 def KUBECTL_POD = """
 apiVersion: v1
@@ -136,7 +136,7 @@ pipeline{
                                 -e "s|{{IMAGE}}|${IMAGE_REGISTRY}|g" \
                                 -e "s|{{TAG}}|${env.GIT_COMMIT[0..6]}|g" \
                                 -e "s|{{PULL_SECRET}}|${PULL_SECRET}|g" \
-                                -e "s|{{INGRESS_DOMAIN}}|${INGRESS_PROD_DOMAIN}|g" \
+                                -e "s|{{INGRESS_DOMAIN}}|${INGRESS_RPOD_DOMAIN}|g" \
                                 ${HELM_VALUE} > ${HELM_PROD_VALUE}
                                 
                                 cat ${HELM_PROD_VALUE}
