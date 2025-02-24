@@ -47,7 +47,7 @@ pipeline{
                 }
             }
         }
-        stage('Deploy to staging namespace'){
+        stage('Deploy app'){
             agent { kubernetes label: 'docker', yaml: "${KUBECTL_POD}" }
             stages{
                 
@@ -91,7 +91,55 @@ pipeline{
                             }
                         }
                     }
-        
+                }
+                stage("Manual review"){
+                    agent none
+                    steps{
+                        timeout(time: 2,unit: 'DAYS'){
+                            input message: 'Deploy image to production?'
+                        }
+                    }
+                }
+                stage('Deploy Image to Staging'){
+                    steps{
+                        container('kubectl'){
+                            withCredentials([
+                            file(
+                                credentialsId: "${CLUSTER_CREDENTIALS}",
+                                variable: 'KUBECONFIG'
+                            ),
+                             usernamePassword(
+                            credentialsId: "${REGISTRY_CREDENTIALS}",
+                            usernameVariable: 'REGISTRY_USER', passwordVariable: 'REGISTRY_PASS'
+                            )
+                            ]){
+                                sh """
+                                kubectl \
+                                -n ${PRODUCTION_NAMESPACE} \
+                                create secret docker-registry ${PULL_SECRET} \
+                                --docker-server=${REGISTRY_URL} \
+                                --docker-username=${REGISTRY_USER} \
+                                --docker-password=${REGISTRY_PASS} \
+                                --dry-run=client \
+                                -o yaml \
+                                | kubectl apply -f -
+
+                                sed -i \
+                                -e "s|{{NAMESPACE}}|${PRODUCTION_NAMESPACE}|g" \
+                                -e "s|{{IMAGE}}|${IMAGE_REGISTRY}|g" \
+                                -e "s|{{TAG}}|${env.GIT_COMMIT[0..6]}|g" \
+                                -e "s|{{PULL_SECRET}}|${PULL_SECRET}|g" \
+                                ${HELM_VALUE}
+                                
+                                cat ${HELM_VALUE}
+                                
+                                helm upgrade --install test ./dev-app -n $PRODUCTION_NAMESPACE -f ${HELM_VALUE}
+
+
+                                """
+                            }
+                        }
+                    }
                 }
             }
         }
