@@ -141,7 +141,7 @@ pipeline{
                                 
                                 cat ${HELM_PROD_VALUE}
                                 
-                                helm upgrade --install prod-app ./dev-app -n $STAGING_NAMESPACE -f ${HELM_PROD_VALUE}
+                                helm upgrade --install prod-app ./dev-app -n $PRODUCTION_NAMESPACE -f ${HELM_PROD_VALUE}
 
 
                                 """
