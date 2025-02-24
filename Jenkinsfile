@@ -126,11 +126,8 @@ pipeline{
                                 | kubectl apply -f -
 
                                 sed -i \
-                                -e "s|{{NAMESPACE}}|${PRODUCTION_NAMESPACE}|g" \
-                                -e "s|{{IMAGE}}|${IMAGE_REGISTRY}|g" \
-                                -e "s|{{TAG}}|${env.GIT_COMMIT[0..6]}|g" \
+                                -e "s|${STAGING_NAMESPACE}|${PRODUCTION_NAMESPACE}|g" \
                                 -e "s|{{PULL_SECRET}}|${PULL_SECRET}|g" \
-                                -e "s|{{PASS_SECRET}}|prod-app-secret|g" \
                                 ${HELM_VALUE}
                                 
                                 cat ${HELM_VALUE}
