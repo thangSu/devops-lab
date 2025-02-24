@@ -133,7 +133,7 @@ pipeline{
                                 
                                 cat ${HELM_VALUE}
                                 
-                                helm upgrade --install test ./dev-app -n $PRODUCTION_NAMESPACE -f ${HELM_VALUE}
+                                helm upgrade --install prod-app ./dev-app -n $PRODUCTION_NAMESPACE -f ${HELM_VALUE}
 
 
                                 """
