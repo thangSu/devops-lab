@@ -39,6 +39,7 @@ pipeline{
                 stage('Build Docker image'){
                     tools{
                         maven "MAVEN3.9"
+                        jdk 'JDK21'
                     }
                     steps{
                         sh 'mvn install'
