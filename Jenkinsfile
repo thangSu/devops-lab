@@ -35,7 +35,7 @@ pipeline{
             stages {
                 stage('Build Docker image'){
                     steps{
-                        sh 'mvn install'
+                        sh '/usr/local/maven3.9/bin/mvn install'
                     }
                 }
                 stage('Build app images'){
