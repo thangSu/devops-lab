@@ -17,4 +17,4 @@ spec:
           service:
             name: dev-app-svc
             port:
-              number: 8080
+              number: 80

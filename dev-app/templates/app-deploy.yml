@@ -20,7 +20,7 @@ spec:
         image: "{{.Values.dev_app.container_image}}:{{.Values.dev_app.tag}}"
         ports: 
         - name: dev-app
-          containerPort: 8080
+          containerPort: 80
       imagePullSecrets: 
       - name: {{.Values.dev_app.pull_secrets.name}}
       initContainers:
