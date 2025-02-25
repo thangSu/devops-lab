@@ -30,13 +30,16 @@ spec:
 """
 pipeline{
     agent any 
-    tools {
-        maven 'MAVEN3.9'
-    }
+    // tools {
+    //     maven 'MAVEN3.9'
+    // }
     stages{
         stage('App image'){
             stages {
                 stage('Build Docker image'){
+                    tools{
+                        maven "MAVEN3.9"
+                    }
                     steps{
                         sh 'mvn install'
                     }
