@@ -30,6 +30,9 @@ spec:
 """
 pipeline{
     agent any 
+    tools {
+        maven 'MAVEN3.9'
+    }
     stages{
         stage('App image'){
             stages {
