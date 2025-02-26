@@ -34,6 +34,11 @@ pipeline{
     //     maven 'MAVEN3.9'
     // }
     stages{
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('App image'){
             stages {
                 stage('Build Docker image'){
@@ -47,14 +52,14 @@ pipeline{
                 }
                 stage('Build app images'){
                     steps{ 
-                        sh "docker build -t ${IMAGE_REGISTRY}:${env.GIT_COMMIT[0..6]} ."
+                        sh "docker build -t ${IMAGE_BRANCH_TAG}:${env.GIT_COMMIT[0..6]} ."
                     }
                 }
                 stage('Push app images to Docker'){
                     steps{
                         withCredentials([usernamePassword(credentialsId: "${REGISTRY_CREDENTIALS}",usernameVariable: 'REGISTRY_USER', passwordVariable: 'REGISTRY_PASS')]){
                             sh "echo ${REGISTRY_PASS} | docker login -u ${REGISTRY_USER} --password-stdin"
-                            sh "docker push ${IMAGE_REGISTRY}:${env.GIT_COMMIT[0..6]}"
+                            sh "docker push ${IMAGE_BRANCH_TAG}:${env.GIT_COMMIT[0..6]}"
                         }
                     }
                 }
@@ -99,7 +104,7 @@ pipeline{
                                 cat ${HELM_DEV_VALUE}
                                 
                                 helm upgrade --install test ./dev-app -n $STAGING_NAMESPACE -f ${HELM_DEV_VALUE}
-
+                                k delete pod -l app=dev-rabbitmq -n $STAGING_NAMESPACE
 
                                 """
                             }
@@ -150,6 +155,7 @@ pipeline{
                                 
                                 helm upgrade --install prod-app ./dev-app -n $PRODUCTION_NAMESPACE -f ${HELM_PROD_VALUE}
 
+                                k delete pod -l app=dev-rabbitmq -n $PRODUCTION_NAMESPACE
 
                                 """
                             }
