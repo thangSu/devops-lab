@@ -110,57 +110,57 @@ pipeline{
                         }
                     }
                 }
-                stage("Manual review"){
-                    agent none
-                    steps{
-                        timeout(time: 2,unit: 'DAYS'){
-                            input message: 'Deploy image to production?'
-                        }
-                    }
-                }
-                stage('Deploy Image to Productions'){
-                    steps{
-                        container('kubectl'){
-                            withCredentials([
-                            file(
-                                credentialsId: "${CLUSTER_CREDENTIALS}",
-                                variable: 'KUBECONFIG'
-                            ),
-                             usernamePassword(
-                            credentialsId: "${REGISTRY_CREDENTIALS}",
-                            usernameVariable: 'REGISTRY_USER', passwordVariable: 'REGISTRY_PASS'
-                            )
-                            ]){
-                                sh """
-                                kubectl \
-                                -n ${PRODUCTION_NAMESPACE} \
-                                create secret docker-registry ${PULL_SECRET} \
-                                --docker-server=${REGISTRY_URL} \
-                                --docker-username=${REGISTRY_USER} \
-                                --docker-password=${REGISTRY_PASS} \
-                                --dry-run=client \
-                                -o yaml \
-                                | kubectl apply -f -
+                // stage("Manual review"){
+                //     agent none
+                //     steps{
+                //         timeout(time: 2,unit: 'DAYS'){
+                //             input message: 'Deploy image to production?'
+                //         }
+                //     }
+                // }
+                // stage('Deploy Image to Productions'){
+                //     steps{
+                //         container('kubectl'){
+                //             withCredentials([
+                //             file(
+                //                 credentialsId: "${CLUSTER_CREDENTIALS}",
+                //                 variable: 'KUBECONFIG'
+                //             ),
+                //              usernamePassword(
+                //             credentialsId: "${REGISTRY_CREDENTIALS}",
+                //             usernameVariable: 'REGISTRY_USER', passwordVariable: 'REGISTRY_PASS'
+                //             )
+                //             ]){
+                //                 sh """
+                //                 kubectl \
+                //                 -n ${PRODUCTION_NAMESPACE} \
+                //                 create secret docker-registry ${PULL_SECRET} \
+                //                 --docker-server=${REGISTRY_URL} \
+                //                 --docker-username=${REGISTRY_USER} \
+                //                 --docker-password=${REGISTRY_PASS} \
+                //                 --dry-run=client \
+                //                 -o yaml \
+                //                 | kubectl apply -f -
 
-                                sed \
-                                -e "s|{{NAMESPACE}}|${PRODUCTION_NAMESPACE}|g" \
-                                -e "s|{{IMAGE}}|${IMAGE_REGISTRY}|g" \
-                                -e "s|{{TAG}}|${env.BRANCH_NAME}-${env.GIT_COMMIT[0..6]}|g" \
-                                -e "s|{{PULL_SECRET}}|${PULL_SECRET}|g" \
-                                -e "s|{{INGRESS_DOMAIN}}|${INGRESS_RPOD_DOMAIN}|g" \
-                                ${HELM_VALUE} > ${HELM_PROD_VALUE}
+                //                 sed \
+                //                 -e "s|{{NAMESPACE}}|${PRODUCTION_NAMESPACE}|g" \
+                //                 -e "s|{{IMAGE}}|${IMAGE_REGISTRY}|g" \
+                //                 -e "s|{{TAG}}|${env.BRANCH_NAME}-${env.GIT_COMMIT[0..6]}|g" \
+                //                 -e "s|{{PULL_SECRET}}|${PULL_SECRET}|g" \
+                //                 -e "s|{{INGRESS_DOMAIN}}|${INGRESS_RPOD_DOMAIN}|g" \
+                //                 ${HELM_VALUE} > ${HELM_PROD_VALUE}
                                 
-                                cat ${HELM_PROD_VALUE}
+                //                 cat ${HELM_PROD_VALUE}
                                 
-                                helm upgrade --install prod-app ./dev-app -n $PRODUCTION_NAMESPACE -f ${HELM_PROD_VALUE}
+                //                 helm upgrade --install prod-app ./dev-app -n $PRODUCTION_NAMESPACE -f ${HELM_PROD_VALUE}
 
-                                kubectl delete pod -l app=dev-rabbitmq -n $PRODUCTION_NAMESPACE
+                //                 kubectl delete pod -l app=dev-rabbitmq -n $PRODUCTION_NAMESPACE
 
-                                """
-                            }
-                        }
-                    }
-                }
+                //                 """
+                //             }
+                //         }
+                //     }
+                // }
             }
         }
     }
