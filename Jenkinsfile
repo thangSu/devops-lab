@@ -103,7 +103,7 @@ pipeline{
                                 cat ${HELM_DEV_VALUE}
                                 
                                 helm upgrade --install test ./dev-app -n $STAGING_NAMESPACE -f ${HELM_DEV_VALUE}
-                                k delete pod -l app=dev-rabbitmq -n $STAGING_NAMESPACE
+                                kubectl delete pod -l app=dev-rabbitmq -n $STAGING_NAMESPACE
 
                                 """
                             }
@@ -154,7 +154,7 @@ pipeline{
                                 
                                 helm upgrade --install prod-app ./dev-app -n $PRODUCTION_NAMESPACE -f ${HELM_PROD_VALUE}
 
-                                k delete pod -l app=dev-rabbitmq -n $PRODUCTION_NAMESPACE
+                                kubectl delete pod -l app=dev-rabbitmq -n $PRODUCTION_NAMESPACE
 
                                 """
                             }
