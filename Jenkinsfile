@@ -108,31 +108,32 @@ pipeline{
                     }
                 }
                 stage("Manual review"){
-                    when {
-                        branch "main"
-                    }
+                    // when {
+                    //     branch "main"
+                    // }
                     agent none
                     steps{
-                        try {
-                            timeout(time: 2,unit: 'DAYS'){
-                            def userChoice = input(
-                                message: 'Deploy image to production?',
-                                parameters: [
-                                    choice( 
-                                        name: 'Approve', 
-                                        choices: ['Yes', 'No'], 
-                                        description: 'Attention: If you choose "yes", this commit will be deployed to the prod environment.'
-                                    )
-                                ]
-                            )
-                            if (userChoice == 'No')
-                                error('Deployment was rejected by admin: thangbeo')
+                        script{
+                            try {
+                                timeout(time: 2,unit: 'DAYS'){
+                                def userChoice = input(
+                                    message: 'Deploy image to production?',
+                                    parameters: [
+                                        choice( 
+                                            name: 'Approve', 
+                                            choices: ['Yes', 'No'], 
+                                            description: 'Attention: If you choose "yes", this commit will be deployed to the prod environment.'
+                                        )
+                                    ]
+                                )
+                                if (userChoice == 'No')
+                                    error('Deployment was rejected by admin: thangbeo')
+                                }
+                            }
+                            catch (err){
+                                error('Timed out waiting for admin approval')
                             }
                         }
-                        catch (err){
-                            error('Timed out waiting for admin approval')
-                        }
-                        
                     }
                 }
                 stage('Deploy Image to Productions'){
