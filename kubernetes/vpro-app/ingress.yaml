@@ -4,7 +4,7 @@ metadata:
   name: devops-ingress
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
-  namespace: {{NAMESPACE}}
+  namespace: example-app
 spec:
   ingressClassName: nginx
   rules:

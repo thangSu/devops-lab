@@ -4,7 +4,7 @@ metadata:
   name: dev-rabbitmq
   labels:
     app: dev-rabbitmq
-  namespace: {{NAMESPACE}}
+  namespace: example-app
 spec:
   selector:
     matchLabels:
@@ -20,7 +20,7 @@ spec:
         image: rabbitmq
         ports:
         - name: dev-rabbitmq-port
-          containerPort: 15672
+          containerPort: 5672
         env: 
          - name: RABBITMQ_DEFAULT_PASS
            valueFrom:

@@ -4,7 +4,7 @@ metadata:
   name: dev-mysql
   labels:
     app: dev-mysql
-  namespace: {{NAMESPACE}}
+  namespace: example-app
 spec:
   selector:
     matchLabels:

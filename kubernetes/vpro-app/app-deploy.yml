@@ -4,7 +4,7 @@ metadata:
   name: dev-app
   labels: 
     app: dev-app
-  namespace: {{NAMESPACE}}
+  namespace: example-app
 spec:
   replicas: 1
   selector:
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: dev-app
-        image: {{PULL_IMAGE}}
+        image: vprocontainers/vprofileapp
         ports: 
         - name: dev-app
           containerPort: 8080

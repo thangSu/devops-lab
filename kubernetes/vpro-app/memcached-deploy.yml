@@ -4,7 +4,7 @@ metadata:
   name: dev-memcached
   labels:
     app: dev-memcached
-  namespace: {{NAMESPACE}}
+  namespace: example-app
 spec:
   selector:
     matchLabels:
