@@ -6,8 +6,8 @@ metadata:
 spec:
   ports:
   - port: 5672
-    targetPort: dev-rabbitmq-port
+    targetPort: dev-rb-port
     protocol: TCP
   selector:
-    app: dev-rabbitmq-svc
+    app: dev-rb-svc
   type: ClusterIP

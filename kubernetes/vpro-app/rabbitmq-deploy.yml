@@ -19,7 +19,7 @@ spec:
       - name: dev-rabbitmq
         image: rabbitmq
         ports:
-        - name: dev-rabbitmq-port
+        - name: dev-rb-port
           containerPort: 5672
         env: 
          - name: RABBITMQ_DEFAULT_PASS

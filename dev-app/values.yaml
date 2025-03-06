@@ -20,3 +20,6 @@ dev_app:
     target-port: 8080
   pull_secrets:
     name: regcred
+    
+ingress:
+  domain: dev.kameyoko.online
