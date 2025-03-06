@@ -25,6 +25,6 @@ spec:
          - name: MYSQL_ROOT_PASSWORD
            valueFrom: 
              secretKeyRef:
-               name: {{.Values.dev_app.pass_secret}}
+               name: dev-app-secret
                key: db-pass
 
