@@ -2,7 +2,7 @@
 namespace: staging
 dev_app:
 
-  container_image: thangsu/dev-app
+  container_image: thangsu/devops-lab
   tag: staging-25c3606
   pullPolicy: IfNotPresent 
 
