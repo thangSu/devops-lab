@@ -1,6 +1,6 @@
 namespace: {{NAMESPACE}}
-dev_app:
 
+dev_app:
   container_image: {{IMAGE}}
   tag: "{{TAG}}"
   pullPolicy: IfNotPresent 
@@ -22,3 +22,9 @@ dev_app:
 
 ingress:
   domain: {{INGRESS_DOMAIN}}
+
+mysql: 
+  password: dGhhbmcyazMwMDM=
+
+rabbitmq: 
+  password: dGhhbmcyazMwMDM=
