@@ -22,7 +22,7 @@ dev_app:
     name: registry-secret
 
 ingress:
-  domain: dev.kameyoko.online
+  domain: dev-app.kameyoko.online
 
 mysql: 
   password: dGhhbmcyazMwMDM=
