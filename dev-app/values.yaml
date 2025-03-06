@@ -3,7 +3,7 @@ namespace: staging
 dev_app:
 
   container_image: thangsu/dev-app
-  tag: v1
+  tag: staging-25c3606
   pullPolicy: IfNotPresent 
 
   resources:
@@ -19,7 +19,7 @@ dev_app:
     port: 8080
     target-port: 8080
   pull_secrets:
-    name: regcred
+    name: registry-secret
 
 ingress:
   domain: dev.kameyoko.online
